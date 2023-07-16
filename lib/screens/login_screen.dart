@@ -1,6 +1,8 @@
 import 'package:flash_chat/constants.dart';
 import 'package:flash_chat/rondbuttons.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flash_chat/screens/chat_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   static String id = 'login_screen';
@@ -9,6 +11,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _auth = FirebaseAuth.instance;
+  String? email;
+  String? password;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,6 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 textAlign: TextAlign.center,
                 onChanged: (value) {
                   //Do something with the user input.
+                  email = value;
                 },
                 decoration: kTextFieldDecoration.copyWith(
                     hintText: 'Enter your email.')),
@@ -45,6 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 obscureText: true,
                 onChanged: (value) {
                   //Do something with the user input.
+                  password = value;
                 },
                 // style: TextStyle(color: Colors.black),
                 decoration: kTextFieldDecoration.copyWith(
@@ -52,11 +59,33 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(
               height: 24.0,
             ),
-            rondbuttons(
-              onPressed: () {},
-              color: Colors.blueAccent,
-              title: 'Log In',
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          child: Material(
+            elevation: 5.0,
+            color: Colors.blueAccent,
+            borderRadius: BorderRadius.circular(30.0),
+            child: MaterialButton(
+              onPressed: () async{
+                //Go to login screen.
+                try{
+                final user = await _auth.signInWithEmailAndPassword(email: email!, password: password!);
+                if (user != null){
+                  Navigator.pushNamed(context, ChatScreen.id);
+                }}
+                    catch(e){
+                  print(e);
+                    }
+              },
+              minWidth: 200.0,
+              height: 42.0,
+              child: const Text(
+                'Log In',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
+          ),
+        )
           ],
         ),
       ),
