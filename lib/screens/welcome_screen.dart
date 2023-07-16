@@ -82,6 +82,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   height: 42.0,
                   child: const Text(
                     'Log In',
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
               ),
@@ -101,6 +102,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   height: 42.0,
                   child: const Text(
                     'Register',
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
               ),
